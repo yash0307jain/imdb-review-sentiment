@@ -13,7 +13,14 @@ try:
 
     url = "https://www.imdb.com/"
     driver.get(url)
-    time.sleep(5)
-    print(driver)
+
+    search_area = driver.find_element_by_id("suggestion-search").send_keys("Doctor Strange")
+
+    search_button = driver.find_element_by_id("suggestion-search-button").click()
+
+    movie_table = driver.find_element_by_xpath("//table[@class='findList']/tbody/tr/td[@class='result_text']/a").click()
+    print(movie_table.get_attribute('innerHTML'))
+
+    time.sleep(2)
 except Exception as e:
     print(str(e))
