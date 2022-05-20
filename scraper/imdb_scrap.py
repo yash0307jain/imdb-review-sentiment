@@ -6,8 +6,10 @@ from bs4 import BeautifulSoup
 import time
 
 try:
-    PATH = "/usr/local/bin/chromedriver"
-    driver = webdriver.Chrome(PATH)
+    CHROME_DRIVER_BINARY = "scraper/chromedriver"
+    options = webdriver.ChromeOptions()
+    options.binary_location = "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser"
+    driver = webdriver.Chrome(CHROME_DRIVER_BINARY, chrome_options=options)
 
     url = "https://www.imdb.com/"
     driver.get(url)
