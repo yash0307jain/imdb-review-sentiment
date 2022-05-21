@@ -11,7 +11,7 @@ def scrapReviews(movie_name: str) -> None:
     try:
         if os.path.exists(f"data/{movieFileName(movie_name)}.json"):
             print("Already exists")
-            return
+            # return
 
         CHROME_DRIVER_BINARY = "scraper/chromedriver"
         options = webdriver.ChromeOptions()
@@ -28,15 +28,18 @@ def scrapReviews(movie_name: str) -> None:
         time.sleep(2)
         
         # Click on the first search result
-        result_movie_name = driver.find_element_by_xpath("//div[@class='sc-crrsfI iDhzRL imdb-header__search-menu']/div/ul/li/a")
-        movie_name = result_movie_name.text.split("\n")[0]
-        result_movie_name.click()
+        movie_list = []
+        movie_search_result = driver.find_elements_by_xpath("//div[@class='sc-crrsfI iDhzRL imdb-header__search-menu']/div/ul/li")
+        if len(movie_search_result) > 0:
+            for i in range(len(movie_search_result)):
+                movie_title = movie_search_result[i].find_elements_by_class_name("searchResult__constTitle")
+                if len(movie_title) > 0: 
+                    movie_list.append((movie_search_result[i], movie_title[0].text))
+                    print(movie_title[0].text)
 
-        # Click on the search button
-        #driver.find_element_by_id("suggestion-search-button").click()
-
-        # Go to the first movie in the list
-        #driver.find_element_by_xpath("//table[@class='findList']/tbody/tr/td[@class='result_text']/a").click()
+        ind = int(input("Enter movie index: "))
+        movie_name = movie_list[ind][1]
+        movie_list[ind][0].click()
 
         # Click on the review button
         driver.find_element_by_xpath("//div[@data-testid='reviews-header']/a").click()
@@ -66,4 +69,4 @@ def scrapReviews(movie_name: str) -> None:
     except Exception as e:
         print(str(e))
 
-scrapReviews("Bhool")
+scrapReviews("Avenger")
