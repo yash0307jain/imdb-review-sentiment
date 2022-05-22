@@ -35,14 +35,28 @@ def scrapReviews(movie_name: str) -> None:
                 movie_title = movie_search_result[i].find_elements_by_class_name("searchResult__constTitle")
                 if len(movie_title) > 0: 
                     movie_list.append((movie_search_result[i], movie_title[0].text))
-                    print(movie_title[0].text)
+                    print(f"index: {len(movie_list) - 1} -> {movie_title[0].text}")
 
+        # Select the movie from the above search list
         ind = int(input("Enter movie index: "))
         movie_name = movie_list[ind][1]
-        movie_list[ind][0].click()
+        time.sleep(1)
+
+        counter = 5
+        while 0 < counter:
+            try:  
+                movie_list[ind][0].click()
+                break
+            except:
+                counter -= 1
 
         # Click on the review button
-        driver.find_element_by_xpath("//div[@data-testid='reviews-header']/a").click()
+        try:
+            driver.find_element_by_xpath("//div[@data-testid='reviews-header']/a").click()
+        except:
+            print("No reviews available")
+            driver.quit()
+            return
 
         # Get all the reviews
         reviews_obj = []
