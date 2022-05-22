@@ -11,7 +11,7 @@ def scrapReviews(movie_name: str) -> None:
     try:
         if os.path.exists(f"data/{movieFileName(movie_name)}.json"):
             print("Already exists")
-            # return
+            return
 
         CHROME_DRIVER_BINARY = "scraper/chromedriver"
         options = webdriver.ChromeOptions()
@@ -68,5 +68,3 @@ def scrapReviews(movie_name: str) -> None:
         driver.quit()
     except Exception as e:
         print(str(e))
-
-scrapReviews("Avenger")
