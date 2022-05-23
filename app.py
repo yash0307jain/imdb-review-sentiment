@@ -13,11 +13,10 @@ def getReviews():
     if request.method == "POST":
         movie = request.form['movie']
         print(movie)
-        resp = ""
+        status = ""
         try:
-            resp = scrapReviews(movie)
-            time.sleep(5)
-            return {'data': movie, 'status': resp}
+            status = scrapReviews(movie)
+            return {'data': movie, 'status': status}
         except Exception as e:
             return {'error': str(e), "status": 404}
 

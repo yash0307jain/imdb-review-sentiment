@@ -35,7 +35,7 @@ def scrapReviews(movie_name: str) -> None:
                     print(f"index: {len(movie_list) - 1} -> {movie_title[0].text}")
 
         # Select the movie from the above search list
-        ind = int(input("Enter movie index: "))
+        ind = 0 #int(input("Enter movie index: "))
         movie_name = movie_list[ind][1]
         movie_list[ind][0].click()
         time.sleep(1)
@@ -57,10 +57,7 @@ def scrapReviews(movie_name: str) -> None:
                 reviews_obj = driver.find_elements_by_xpath("//div[@class='text show-more__control']")
                 break
         
-        reviews = []
-        for review in reviews_obj:
-            if review.text != "":
-                reviews.append(review.text)
+        reviews = [review.text for review in reviews_obj if review.text != ""]
         
         # Export reviews
         data = {'reviews': reviews}
