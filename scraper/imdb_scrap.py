@@ -1,6 +1,4 @@
-from shutil import move
 from selenium import webdriver
-from selenium.webdriver.common.by import By
 import json
 import time
 import os.path
@@ -10,8 +8,7 @@ movieFileName = lambda movie: "_".join(movie.split())
 def scrapReviews(movie_name: str) -> None:
     try:
         if os.path.exists(f"data/{movieFileName(movie_name)}.json"):
-            print("Already exists")
-            return
+            return 'Already Exists'
 
         CHROME_DRIVER_BINARY = "scraper/chromedriver"
         options = webdriver.ChromeOptions()
@@ -40,23 +37,15 @@ def scrapReviews(movie_name: str) -> None:
         # Select the movie from the above search list
         ind = int(input("Enter movie index: "))
         movie_name = movie_list[ind][1]
+        movie_list[ind][0].click()
         time.sleep(1)
-
-        counter = 5
-        while 0 < counter:
-            try:  
-                movie_list[ind][0].click()
-                break
-            except:
-                counter -= 1
-
+        
         # Click on the review button
         try:
             driver.find_element_by_xpath("//div[@data-testid='reviews-header']/a").click()
         except:
-            print("No reviews available")
             driver.quit()
-            return
+            return "No reviews available"
 
         # Get all the reviews
         reviews_obj = []
@@ -80,5 +69,6 @@ def scrapReviews(movie_name: str) -> None:
 
         # Quit the driver
         driver.quit()
+        return "done scraping"
     except Exception as e:
         print(str(e))
