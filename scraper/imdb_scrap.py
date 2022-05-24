@@ -7,9 +7,6 @@ movieFileName = lambda movie: "_".join(movie.split())
 
 def scrapReviews(movie_name: str) -> None:
     try:
-        if os.path.exists(f"data/{movieFileName(movie_name)}.json"):
-            return 'Already Exists'
-
         CHROME_DRIVER_BINARY = "scraper/chromedriver"
         options = webdriver.ChromeOptions()
         options.binary_location = "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser"
@@ -25,20 +22,26 @@ def scrapReviews(movie_name: str) -> None:
         time.sleep(2)
         
         # Click on the first search result
-        movie_list = []
+        # movie_list = []
         movie_search_result = driver.find_elements_by_xpath("//div[@class='sc-crrsfI iDhzRL imdb-header__search-menu']/div/ul/li")
-        if len(movie_search_result) > 0:
-            for i in range(len(movie_search_result)):
-                movie_title = movie_search_result[i].find_elements_by_class_name("searchResult__constTitle")
-                if len(movie_title) > 0: 
-                    movie_list.append((movie_search_result[i], movie_title[0].text))
-                    print(f"index: {len(movie_list) - 1} -> {movie_title[0].text}")
+        movie_name = movie_search_result[0].text.split("\n")[0]
+        movie_search_result[0].click()
+        
+        if os.path.exists(f"data/{movieFileName(movie_name)}.json"):
+            return 'Already Exists'
+
+        # if len(movie_search_result) > 0:
+        #     for i in range(len(movie_search_result)):
+        #         movie_title = movie_search_result[i].find_elements_by_class_name("searchResult__constTitle")
+        #         if len(movie_title) > 0: 
+        #             movie_list.append((movie_search_result[i], movie_title[0].text))
+        #             print(f"index: {len(movie_list) - 1} -> {movie_title[0].text}")
 
         # Select the movie from the above search list
-        ind = 0 #int(input("Enter movie index: "))
-        movie_name = movie_list[ind][1]
-        movie_list[ind][0].click()
-        time.sleep(1)
+        # ind = int(input("Enter movie index: "))
+        # movie_name = movie_list[ind][1]
+        # movie_list[ind][0].click()
+        # time.sleep(1)
         
         # Click on the review button
         try:
@@ -66,6 +69,7 @@ def scrapReviews(movie_name: str) -> None:
 
         # Quit the driver
         driver.quit()
-        return "done scraping"
+        return f"Done Scraping"
     except Exception as e:
         print(str(e))
+        return f"Error: {str(e)}"

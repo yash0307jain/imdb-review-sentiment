@@ -1,0 +1,41 @@
+body {
+    color: white;
+    background-color: black;
+}
+
+.scraper {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+}
+
+.scraper_form {
+    display: flex;
+    justify-content: center;
+}
+
+.scraper_result {
+    display: flex;
+    justify-content: center;
+}
+
+input[type=text] {
+    font-size: 15px;
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+
+input[type=submit] {
+    background-color: #04AA6D;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+    float: right;
+}

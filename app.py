@@ -12,13 +12,11 @@ def home():
 def getReviews():
     if request.method == "POST":
         movie = request.form['movie']
-        print(movie)
-        status = ""
         try:
             status = scrapReviews(movie)
-            return {'data': movie, 'status': status}
+            return render_template('result.html', result=status)
         except Exception as e:
-            return {'error': str(e), "status": 404}
+            return render_template('result.html', result=str(e))
 
 if __name__ == '__main__':
     app.run(debug=True)
