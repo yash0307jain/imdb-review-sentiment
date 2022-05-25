@@ -25,10 +25,13 @@ def scrapReviews(movie_name: str) -> None:
         # movie_list = []
         movie_search_result = driver.find_elements_by_xpath("//div[@class='sc-crrsfI iDhzRL imdb-header__search-menu']/div/ul/li")
         movie_name = movie_search_result[0].text.split("\n")[0]
-        movie_search_result[0].click()
+        print(movie_name)
         
         if os.path.exists(f"data/{movieFileName(movie_name)}.json"):
-            return 'Already Exists'
+            driver.quit()
+            return movieFileName(movie_name)
+
+        movie_search_result[0].click()
 
         # if len(movie_search_result) > 0:
         #     for i in range(len(movie_search_result)):
@@ -69,7 +72,7 @@ def scrapReviews(movie_name: str) -> None:
 
         # Quit the driver
         driver.quit()
-        return f"Done Scraping"
+        return movie_name
     except Exception as e:
         print(str(e))
         return f"Error: {str(e)}"

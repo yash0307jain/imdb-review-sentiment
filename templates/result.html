@@ -10,9 +10,22 @@
 </head>
 
 <body>
-    <div class="scraper_result">
-        <h3>{{ result }}</h3>
-    </div>
+    <table>
+        <tr>
+            <th>Review</th>
+
+        </tr>
+        {% for review in result %}
+        <tr>
+            {% if review[1] == 'positive' %}
+            <td style="color: green">{{ review[0] }}</td>
+            {% else %}
+            <td style="color: red">{{ review[0] }}</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+
+    </table>
 </body>
 
 </html>
