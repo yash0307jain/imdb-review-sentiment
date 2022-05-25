@@ -14,7 +14,7 @@ def reviewSentiment(reviews: list[str]):
     df_pipe = pd.DataFrame({'tweet': reviews})
     
     X = tokenizer.texts_to_sequences(df_pipe['tweet'].values)
-    X = tf.keras.preprocessing.sequence.pad_sequences(X, maxlen=18, padding='pre')
+    X = tf.keras.preprocessing.sequence.pad_sequences(X, padding='pre', maxlen=18)
 
     sentiment_pred = model.predict(X)
 
@@ -29,7 +29,7 @@ def reviewSentiment(reviews: list[str]):
 
 @app.route("/")
 def home():
-    return render_template('home.html')
+    return render_template('index.html')
 
 @app.route("/scrap_review", methods=['POST'])
 def getReviews():
