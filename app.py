@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request
-from numpy import negative, positive
 from scraper import scrapReviews
 import tensorflow as tf
 import pandas as pd
