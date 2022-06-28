@@ -40,7 +40,7 @@ def getReviews():
             with open(f'data/{movie_name}.json', 'r') as f:
                 reviews = json.load(f)['reviews']
             sentiment = reviewSentiment(reviews)
-            return render_template('result.html', result=sentiment)
+            return render_template('result.html', result={ "sentiment": sentiment, "movie_name": movie_name } )
         except Exception as e:
             return render_template('result.html', result=str(e))
 

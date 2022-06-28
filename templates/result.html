@@ -12,10 +12,9 @@
 <body>
     <table>
         <tr>
-            <th>Review</th>
-
+            <th>Review: {{ result['movie_name'] }}</th>
         </tr>
-        {% for review in result %}
+        {% for review in result['sentiment'] %}
         <tr>
             {% if review[1] == 'positive' %}
             <td style="color: green">{{ review[0] }}</td>

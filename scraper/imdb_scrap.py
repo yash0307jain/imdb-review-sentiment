@@ -25,13 +25,13 @@ def scrapReviews(movie_name: str) -> None:
         
         # Click on the first search result
         # movie_list = []
-        movie_search_result = driver.find_elements_by_xpath("//div[@class='sc-crrsfI iDhzRL imdb-header__search-menu']/div/ul/li")
-        movie_name = movie_search_result[0].text.split("\n")[0]
-        print(movie_name)
+        movie_search_result = driver.find_elements_by_xpath("//div[@class='sc-b59d028c-0 gUNzYO imdb-header__search-menu']/div/ul/li")
+        time.sleep(0.5)
+        movie_name = movieFileName(movie_search_result[0].text.split("\n")[0])
         
-        if os.path.exists(f"data/{movieFileName(movie_name)}.json"):
+        if os.path.exists(f"data/{movie_name}.json"):
             driver.quit()
-            return movieFileName(movie_name)
+            return movie_name
 
         movie_search_result[0].click()
 
@@ -57,9 +57,13 @@ def scrapReviews(movie_name: str) -> None:
 
         # Get all the reviews
         reviews_obj = []
-        while True:
+        counter = 5
+        while counter > 0:
+            counter -= 1
             try:
                 driver.find_element_by_class_name("ipl-load-more__button").click()
+                if counter == 0:
+                    reviews_obj = driver.find_elements_by_xpath("//div[@class='text show-more__control']")
             except:
                 reviews_obj = driver.find_elements_by_xpath("//div[@class='text show-more__control']")
                 break
@@ -68,7 +72,7 @@ def scrapReviews(movie_name: str) -> None:
         
         # Export reviews
         data = {'reviews': reviews}
-        with open(f'data/{movieFileName(movie_name)}.json', 'w') as jsonfile:
+        with open(f'data/{movie_name}.json', 'w') as jsonfile:
             json.dump(data, jsonfile)
 
         # Quit the driver
