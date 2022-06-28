@@ -8,18 +8,20 @@ movieFileName = lambda movie: "_".join(movie.split())
 def scrapReviews(movie_name: str) -> None:
     try:
         CHROME_DRIVER_BINARY = "scraper/chromedriver"
-        options = webdriver.ChromeOptions()
-        options.binary_location = "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser"
-        driver = webdriver.Chrome(CHROME_DRIVER_BINARY, chrome_options=options)
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument('--no-sandbox')
+        CHROME_DRIVER_BINARY = "scraper/chromedriver"
+        driver = webdriver.Chrome(CHROME_DRIVER_BINARY, chrome_options=chrome_options)
+        driver.implicitly_wait(10)
 
         # Go to the URL
-        driver.maximize_window()
+        # driver.maximize_window()
         url = "https://www.imdb.com/"
         driver.get(url)
 
         # Write on the search text field
         driver.find_element_by_id("suggestion-search").send_keys(movie_name)
-        time.sleep(2)
         
         # Click on the first search result
         # movie_list = []
@@ -58,7 +60,6 @@ def scrapReviews(movie_name: str) -> None:
         while True:
             try:
                 driver.find_element_by_class_name("ipl-load-more__button").click()
-                time.sleep(3)
             except:
                 reviews_obj = driver.find_elements_by_xpath("//div[@class='text show-more__control']")
                 break
