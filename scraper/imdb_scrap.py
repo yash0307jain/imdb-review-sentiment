@@ -11,7 +11,6 @@ def scrapReviews(movie_name: str) -> None:
         chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument("--headless")
         chrome_options.add_argument('--no-sandbox')
-        CHROME_DRIVER_BINARY = "scraper/chromedriver"
         driver = webdriver.Chrome(CHROME_DRIVER_BINARY, chrome_options=chrome_options)
         driver.implicitly_wait(10)
 
